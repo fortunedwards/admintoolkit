@@ -30,10 +30,10 @@ async function loadCourseContent() {
                 weekDescriptions[content.week] = {
                     title: content.title,
                     description: content.description,
-                    videoId: content.videoId,
-                    videoIds: content.videoIds,
-                    assignmentQuestion: content.assignmentQuestion,
-                    imageIcon: content.imageIcon,
+                    videoId: content.videoid || content.videoId,
+                    videoIds: content.videoids || content.videoIds,
+                    assignmentQuestion: content.assignmentquestion || content.assignmentQuestion,
+                    imageIcon: content.imageicon || content.imageIcon,
                     type: type
                 };
             });
@@ -407,7 +407,7 @@ function openWeekModal(weekNumber) {
                             <!-- Video Section for Certification -->
                             <div class="aspect-video bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl overflow-hidden shadow-lg">
                                 <iframe id="video-${weekNumber}" 
-                                        src="https://www.youtube.com/embed/${extractVideoId(weekInfo.videoId)}?enablejsapi=1&rel=0" 
+                                        src="${getEmbedUrl(weekInfo.videoIds || weekInfo.videoId)}" 
                                         class="w-full h-full" frameborder="0" allowfullscreen>
                                 </iframe>
                             </div>
@@ -605,6 +605,37 @@ function showMessage(text, type = 'success') {
 
 
 
+// Get embed URL for different video platforms
+function getEmbedUrl(videoUrl) {
+    if (!videoUrl) return 'https://www.youtube.com/embed/dQw4w9WgXcQ';
+    
+    // Google Drive video
+    if (videoUrl.includes('drive.google.com')) {
+        const fileIdMatch = videoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+        if (fileIdMatch) {
+            return `https://drive.google.com/file/d/${fileIdMatch[1]}/preview`;
+        }
+        // If already in preview format, return as-is
+        if (videoUrl.includes('/preview')) {
+            return videoUrl;
+        }
+    }
+    
+    // YouTube video
+    if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+        const videoId = extractVideoId(videoUrl);
+        return `https://www.youtube.com/embed/${videoId}?enablejsapi=1&rel=0`;
+    }
+    
+    // If it's already an embed URL, return as-is
+    if (videoUrl.includes('/embed/') || videoUrl.includes('/preview')) {
+        return videoUrl;
+    }
+    
+    // Default fallback
+    return videoUrl;
+}
+
 // Extract video ID from YouTube URL or return as-is if already an ID
 function extractVideoId(videoIdOrUrl) {
     if (!videoIdOrUrl) return 'dQw4w9WgXcQ';
@@ -629,7 +660,7 @@ function extractVideoId(videoIdOrUrl) {
     return 'dQw4w9WgXcQ';
 }
 
-// Generate video section with support for multiple videos
+// Generate video section with support for multiple videos and different platforms
 function generateVideoSection(weekInfo, weekNumber) {
     const videoIds = weekInfo.videoIds || weekInfo.videoId;
     
@@ -646,7 +677,7 @@ function generateVideoSection(weekInfo, weekNumber) {
         // Single video
         return `<div class="aspect-video bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl overflow-hidden mb-6 shadow-lg">
             <iframe id="video-${weekNumber}" 
-                    src="https://www.youtube.com/embed/${extractVideoId(videoList[0])}?enablejsapi=1&rel=0" 
+                    src="${getEmbedUrl(videoList[0])}" 
                     class="w-full h-full" frameborder="0" allowfullscreen>
             </iframe>
         </div>`;
@@ -656,7 +687,7 @@ function generateVideoSection(weekInfo, weekNumber) {
             ${videoList.map((video, index) => `
                 <div class="aspect-video bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl overflow-hidden shadow-lg">
                     <iframe id="video-${weekNumber}-${index}" 
-                            src="https://www.youtube.com/embed/${extractVideoId(video)}?enablejsapi=1&rel=0" 
+                            src="${getEmbedUrl(video)}" 
                             class="w-full h-full" frameborder="0" allowfullscreen>
                     </iframe>
                 </div>
