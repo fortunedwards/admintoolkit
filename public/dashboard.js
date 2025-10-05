@@ -31,6 +31,9 @@ async function loadCourseContent() {
                     title: content.title,
                     description: content.description,
                     videoId: content.videoId,
+                    videoIds: content.videoIds,
+                    assignmentQuestion: content.assignmentQuestion,
+                    imageIcon: content.imageIcon,
                     type: type
                 };
             });
@@ -208,7 +211,7 @@ function updateCourseTimeline() {
                         <div class="flex items-start gap-3 sm:gap-4">
                             <div class="relative flex-shrink-0">
                                 <div class="w-12 h-12 sm:w-16 sm:h-16 ${week.approved ? 'bg-emerald-100 dark:bg-emerald-900/30' : canAccess ? 'bg-blue-100 dark:bg-blue-900/30' : 'bg-slate-100 dark:bg-slate-800'} rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg p-2 sm:p-3">
-                                    <img src="${toolLogos[week.week] || 'https://fonts.gstatic.com/s/i/productlogos/admin_2020q4/v6/web-512dp/logo_admin_2020q4_color_2x_web_512dp.png'}" alt="Tool ${week.week}" class="w-full h-full object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                    <img src="${weekInfo?.imageIcon || toolLogos[week.week] || 'https://fonts.gstatic.com/s/i/productlogos/admin_2020q4/v6/web-512dp/logo_admin_2020q4_color_2x_web_512dp.png'}" alt="Tool ${week.week}" class="w-full h-full object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                                     <span class="text-lg sm:text-2xl hidden">📚</span>
                                 </div>
                                 ${week.approved ? '<div class="absolute -top-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 bg-emerald-500 rounded-full flex items-center justify-center"><span class="material-symbols-outlined text-white text-xs sm:text-sm">check</span></div>' : ''}
@@ -352,7 +355,7 @@ function openWeekModal(weekNumber) {
                             </div>
                             <div>
                                 <h3 class="text-xl font-bold text-gray-900 dark:text-white">Practical Assignment</h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Apply what you've learned</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">${courseContent.find(c => c.week === weekNumber)?.assignmentQuestion || 'Apply what you\'ve learned'}</p>
                             </div>
                         </div>
                         <form id="assignment-form-${weekNumber}" onsubmit="submitAssignmentFile(event, ${weekNumber})" class="space-y-6">
