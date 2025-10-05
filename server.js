@@ -99,10 +99,16 @@ async function initializeDatabase() {
       [8, 'Week 8: Graduation/Closing', 'Final assessment and certification completion for Administrative Toolkit mastery.', 'dQw4w9WgXcQ']
     ];
     
-    // Force update to correct order
+    // Force update to correct order - always update existing records
     for (const content of defaultContent) {
-      await db.query('UPDATE course_content SET title = $2, description = $3, videoId = $4 WHERE week = $1', content);
+      await db.query('INSERT INTO course_content (week, title, description, videoId) VALUES ($1, $2, $3, $4) ON CONFLICT (week) DO UPDATE SET title = $2, description = $3, videoId = $4', content);
     }
+    
+    // Additional force update for existing wrong data
+    await db.query('UPDATE course_content SET title = $1, description = $2 WHERE week = 1', ['Week 1: Gmail', 'Master professional email management, organization, and communication strategies for efficient correspondence.']);
+    await db.query('UPDATE course_content SET title = $1, description = $2 WHERE week = 2', ['Week 2: Google Docs + Google Drive', 'Learn professional document creation, collaborative editing, and cloud file management with advanced sharing permissions.']);
+    await db.query('UPDATE course_content SET title = $1, description = $2 WHERE week = 3', ['Week 3: Google Calendar + Google Meet', 'Master scheduling, event management, and virtual meeting coordination for optimal productivity and communication.']);
+    await db.query('UPDATE course_content SET title = $1, description = $2 WHERE week = 4', ['Week 4: Google Forms', 'Create powerful online surveys, questionnaires, and data collection forms with advanced features and analytics.']);
     
     console.log('✅ Course content updated to correct order for weeks 1-8');
 
