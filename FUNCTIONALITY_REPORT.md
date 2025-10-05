@@ -74,10 +74,10 @@
 ## 🎯 COURSE STRUCTURE
 
 ### 8-Week Administrative Toolkit
-1. **Week 1**: Google Forms - Surveys and data collection
-2. **Week 2**: Gmail - Email management and communication
-3. **Week 3**: Google Docs + Google Drive - Document creation and file management
-4. **Week 4**: Google Calendar + Google Meet - Scheduling and virtual meetings
+1. **Week 1**: Gmail - Email management and communication
+2. **Week 2**: Google Docs + Google Drive - Document creation and file management
+3. **Week 3**: Google Calendar + Google Meet - Scheduling and virtual meetings
+4. **Week 4**: Google Forms - Surveys and data collection
 5. **Week 5**: Google Sheets - Spreadsheet creation and data analysis
 6. **Week 6**: Google Keep - Note organization and management
 7. **Week 7**: Trello - Project management with Kanban boards
