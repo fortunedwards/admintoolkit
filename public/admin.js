@@ -287,12 +287,12 @@ function renderContent(content) {
             <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
                 <span class="flex items-center gap-1">
                     <span class="material-symbols-outlined text-sm">play_circle</span>
-                    ${week.videoId ? 'Video Available' : 'No Video'}
+                    ${(week.videoIds || week.videoid) ? 'Video Available' : 'No Video'}
                 </span>
                 <div class="flex items-center gap-2">
-                    ${week.assignmentQuestion ? '<span class="px-2 py-1 bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200 rounded-full text-xs">Assignment Set</span>' : ''}
-                    <span class="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded-full">
-                        ${week.videoId || 'No ID'}
+                    ${(week.assignmentQuestion || week.assignmentquestion) ? '<span class="px-2 py-1 bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200 rounded-full text-xs">Assignment Set</span>' : ''}
+                    <span class="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-xs max-w-32 truncate">
+                        ${(week.videoIds || week.videoid) ? 'Video Set' : 'No Video'}
                     </span>
                 </div>
             </div>
@@ -320,14 +320,20 @@ function showContentModal(week = null) {
             .then(result => {
                 if (result.success) {
                     const content = result.content;
+                    console.log('Loading content for edit:', content);
                     document.getElementById('content-week').value = week;
                     document.getElementById('content-week-number').value = week;
-                    document.getElementById('content-title').value = content.title;
-                    document.getElementById('content-description').value = content.description;
-                    document.getElementById('content-video-ids').value = content.videoIds || content.videoId || '';
-                    document.getElementById('content-assignment-question').value = content.assignmentQuestion || '';
-                    document.getElementById('content-image-icon').value = content.imageIcon || '';
+                    document.getElementById('content-title').value = content.title || '';
+                    document.getElementById('content-description').value = content.description || '';
+                    document.getElementById('content-video-ids').value = content.videoIds || content.videoid || '';
+                    document.getElementById('content-assignment-question').value = content.assignmentquestion || '';
+                    document.getElementById('content-image-icon').value = content.imageicon || '';
+                } else {
+                    console.error('Failed to load content:', result);
                 }
+            })
+            .catch(error => {
+                console.error('Error loading content:', error);
             });
     } else {
         // Add mode
@@ -368,6 +374,8 @@ async function saveContent(event) {
         assignmentQuestion: document.getElementById('content-assignment-question').value,
         imageIcon: document.getElementById('content-image-icon').value
     };
+    
+    console.log('Saving content data:', data);
     
     try {
         const response = await fetch('/api/admin/content', {

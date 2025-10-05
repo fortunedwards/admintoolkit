@@ -1115,6 +1115,7 @@ app.get('/api/admin/content/:week', async (req, res) => {
   
   try {
     const result = await db.query('SELECT * FROM course_content WHERE week = $1', [week]);
+    console.log('Fetched content for week', week, ':', result.rows[0]);
     res.json({ success: true, content: result.rows[0] });
   } catch (err) {
     console.error('Fetch content by week error:', err);
@@ -1127,6 +1128,12 @@ app.post('/api/admin/content', async (req, res) => {
   
   const { week, title, description, videoId, courseDescription, logoUrl } = req.body;
   const videoIds = req.body.videoIds || videoId; // Support both single and multiple videos
+  
+  console.log('Received content update request:', {
+    week, title, description, videoId, videoIds, 
+    assignmentQuestion: req.body.assignmentQuestion, 
+    imageIcon: req.body.imageIcon
+  });
   
   try {
     // Check if this is a new week or existing week
@@ -1142,12 +1149,14 @@ app.post('/api/admin/content', async (req, res) => {
         await db.query('INSERT INTO progress (student_id, week) VALUES ($1, $2)', [student.id, weekNumber]);
       }
       
+      console.log('New content created for week:', weekNumber);
       res.json({ success: true, message: 'Content created successfully' });
     } else {
       // Update existing week
-      await db.query('UPDATE course_content SET title = $1, description = $2, videoId = $3, videoIds = $4, assignmentQuestion = $5, imageIcon = $6 WHERE week = $7',
+      const updateResult = await db.query('UPDATE course_content SET title = $1, description = $2, videoId = $3, videoIds = $4, assignmentQuestion = $5, imageIcon = $6 WHERE week = $7',
         [title, description, videoId, videoIds, req.body.assignmentQuestion, req.body.imageIcon, week]);
       
+      console.log('Content updated for week:', week, 'Rows affected:', updateResult.rowCount);
       res.json({ success: true, message: 'Content updated successfully' });
     }
   } catch (err) {
