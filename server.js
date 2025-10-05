@@ -718,23 +718,7 @@ app.get('/create-admin', async (req, res) => {
   }
 });
 
-app.get('/fix-weeks', async (req, res) => {
-  try {
-    const missingWeeks = [
-      [8, 'Week 8: Google Sheets', 'Create powerful spreadsheets, data analysis, formulas, charts, and automated reporting for business insights.', 'dQw4w9WgXcQ'],
-      [9, 'Week 9: Google Keep', 'Organize thoughts with digital note-taking, to-do lists, reminders, and idea management systems.', 'dQw4w9WgXcQ'],
-      [10, 'Week 10: Certification', 'Final assessment and certification completion for Administrative Toolkit mastery.', 'dQw4w9WgXcQ']
-    ];
-    
-    for (const week of missingWeeks) {
-      await db.query('INSERT INTO course_content (week, title, description, videoId) VALUES ($1, $2, $3, $4) ON CONFLICT (week) DO UPDATE SET title = $2, description = $3, videoId = $4', week);
-    }
-    
-    res.json({ success: true, message: 'Weeks 8-10 added successfully' });
-  } catch (err) {
-    res.json({ success: false, error: err.message });
-  }
-});
+
 
 app.get('/api/progress', async (req, res) => {
   if (!req.session.studentId) {
