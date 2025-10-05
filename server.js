@@ -89,10 +89,10 @@ async function initializeDatabase() {
 
     // Insert default course content for Administrative Toolkit
     const defaultContent = [
-      [1, 'Week 1: Google Forms', 'Create powerful online surveys, questionnaires, and data collection forms with advanced features and analytics.', 'dQw4w9WgXcQ'],
-      [2, 'Week 2: Gmail', 'Master professional email management, organization, and communication strategies for efficient correspondence.', 'dQw4w9WgXcQ'],
-      [3, 'Week 3: Google Docs + Google Drive', 'Learn professional document creation, collaborative editing, and cloud file management with advanced sharing permissions.', 'dQw4w9WgXcQ'],
-      [4, 'Week 4: Google Calendar + Google Meet', 'Master scheduling, event management, and virtual meeting coordination for optimal productivity and communication.', 'dQw4w9WgXcQ'],
+      [1, 'Week 1: Gmail', 'Master professional email management, organization, and communication strategies for efficient correspondence.', 'dQw4w9WgXcQ'],
+      [2, 'Week 2: Google Docs + Google Drive', 'Learn professional document creation, collaborative editing, and cloud file management with advanced sharing permissions.', 'dQw4w9WgXcQ'],
+      [3, 'Week 3: Google Calendar + Google Meet', 'Master scheduling, event management, and virtual meeting coordination for optimal productivity and communication.', 'dQw4w9WgXcQ'],
+      [4, 'Week 4: Google Forms', 'Create powerful online surveys, questionnaires, and data collection forms with advanced features and analytics.', 'dQw4w9WgXcQ'],
       [5, 'Week 5: Google Sheets', 'Create powerful spreadsheets, data analysis, formulas, charts, and automated reporting for business insights.', 'dQw4w9WgXcQ'],
       [6, 'Week 6: Google Keep', 'Organize thoughts with digital note-taking, to-do lists, reminders, and idea management systems.', 'dQw4w9WgXcQ'],
       [7, 'Week 7: Trello', 'Implement project management workflows, team collaboration boards, and task tracking systems for productivity.', 'dQw4w9WgXcQ'],

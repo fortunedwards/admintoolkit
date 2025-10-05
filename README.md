@@ -8,10 +8,10 @@ A comprehensive LMS for an 8-week digital productivity tools course, now powered
 - Password reset functionality
 - Secure authentication system
 - 8-week course structure:
-  - Week 1: Google Forms - Surveys and data collection
-  - Week 2: Gmail - Email management and communication
-  - Week 3: Google Docs + Google Drive - Document creation and file management
-  - Week 4: Google Calendar + Google Meet - Scheduling and virtual meetings
+  - Week 1: Gmail - Email management and communication
+  - Week 2: Google Docs + Google Drive - Document creation and file management
+  - Week 3: Google Calendar + Google Meet - Scheduling and virtual meetings
+  - Week 4: Google Forms - Surveys and data collection
   - Week 5: Google Sheets - Spreadsheet creation and data analysis
   - Week 6: Google Keep - Note organization and management
   - Week 7: Trello - Project management with Kanban boards
@@ -58,10 +58,10 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
 
 ## Course Structure
 
-- **Week 1**: Google Forms - Surveys and data collection
-- **Week 2**: Gmail - Email management and professional communication
-- **Week 3**: Google Docs + Google Drive - Document creation and cloud file management
-- **Week 4**: Google Calendar + Google Meet - Scheduling and virtual meetings
+- **Week 1**: Gmail - Email management and professional communication
+- **Week 2**: Google Docs + Google Drive - Document creation and cloud file management
+- **Week 3**: Google Calendar + Google Meet - Scheduling and virtual meetings
+- **Week 4**: Google Forms - Surveys and data collection
 - **Week 5**: Google Sheets - Spreadsheet creation and data analysis
 - **Week 6**: Google Keep - Note organization and management
 - **Week 7**: Trello - Project management with Kanban boards
