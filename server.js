@@ -99,11 +99,12 @@ async function initializeDatabase() {
       [8, 'Week 8: Graduation/Closing', 'Final assessment and certification completion for Administrative Toolkit mastery.', 'dQw4w9WgXcQ']
     ];
     
+    // Force update to correct order
     for (const content of defaultContent) {
-      await db.query('INSERT INTO course_content (week, title, description, videoId) VALUES ($1, $2, $3, $4) ON CONFLICT (week) DO UPDATE SET title = $2, description = $3, videoId = $4', content);
+      await db.query('UPDATE course_content SET title = $2, description = $3, videoId = $4 WHERE week = $1', content);
     }
     
-    console.log('✅ Course content initialized for weeks 1-8');
+    console.log('✅ Course content updated to correct order for weeks 1-8');
 
     // Create default admin (email: cfi.ideation@gmail.com, password: admintoolkit)
     try {
