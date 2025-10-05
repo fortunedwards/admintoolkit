@@ -355,7 +355,7 @@ function openWeekModal(weekNumber) {
                             </div>
                             <div>
                                 <h3 class="text-xl font-bold text-gray-900 dark:text-white">Practical Assignment</h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">${courseContent.find(c => c.week === weekNumber)?.assignmentQuestion || 'Apply what you\'ve learned'}</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">${weekInfo?.assignmentQuestion || 'Apply what you\'ve learned'}</p>
                             </div>
                         </div>
                         <form id="assignment-form-${weekNumber}" onsubmit="submitAssignmentFile(event, ${weekNumber})" class="space-y-6">
