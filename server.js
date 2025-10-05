@@ -1145,8 +1145,8 @@ app.post('/api/admin/content', async (req, res) => {
       res.json({ success: true, message: 'Content created successfully' });
     } else {
       // Update existing week
-      await db.query('UPDATE course_content SET title = $1, description = $2, videoId = $3, videoIds = $4, courseDescription = $5, logoUrl = $6, assignmentQuestion = $7, imageIcon = $8 WHERE week = $9',
-        [title, description, videoId, videoIds, courseDescription, logoUrl, req.body.assignmentQuestion, req.body.imageIcon, week]);
+      await db.query('UPDATE course_content SET title = $1, description = $2, videoId = $3, videoIds = $4, assignmentQuestion = $5, imageIcon = $6 WHERE week = $7',
+        [title, description, videoId, videoIds, req.body.assignmentQuestion, req.body.imageIcon, week]);
       
       res.json({ success: true, message: 'Content updated successfully' });
     }
