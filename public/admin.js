@@ -324,10 +324,7 @@ function showContentModal(week = null) {
                     document.getElementById('content-week-number').value = week;
                     document.getElementById('content-title').value = content.title;
                     document.getElementById('content-description').value = content.description;
-                    document.getElementById('content-video-id').value = content.videoId || '';
-                    document.getElementById('content-video-ids').value = content.videoIds || '';
-                    document.getElementById('content-course-description').value = content.courseDescription || '';
-                    document.getElementById('content-logo-url').value = content.logoUrl || '';
+                    document.getElementById('content-video-ids').value = content.videoIds || content.videoId || '';
                     document.getElementById('content-assignment-question').value = content.assignmentQuestion || '';
                     document.getElementById('content-image-icon').value = content.imageIcon || '';
                 }
@@ -338,10 +335,7 @@ function showContentModal(week = null) {
         document.getElementById('content-week-number').value = '';
         document.getElementById('content-title').value = '';
         document.getElementById('content-description').value = '';
-        document.getElementById('content-video-id').value = '';
         document.getElementById('content-video-ids').value = '';
-        document.getElementById('content-course-description').value = '';
-        document.getElementById('content-logo-url').value = '';
         document.getElementById('content-assignment-question').value = '';
         document.getElementById('content-image-icon').value = '';
     }
@@ -364,14 +358,13 @@ function closeContentModal() {
 async function saveContent(event) {
     event.preventDefault();
     
+    const videoInput = document.getElementById('content-video-ids').value.trim();
     const data = {
         week: document.getElementById('content-week').value || document.getElementById('content-week-number').value,
         title: document.getElementById('content-title').value,
         description: document.getElementById('content-description').value,
-        videoId: document.getElementById('content-video-id').value,
-        videoIds: document.getElementById('content-video-ids').value,
-        courseDescription: document.getElementById('content-course-description').value,
-        logoUrl: document.getElementById('content-logo-url').value,
+        videoId: videoInput.includes(',') ? videoInput.split(',')[0].trim() : videoInput,
+        videoIds: videoInput,
         assignmentQuestion: document.getElementById('content-assignment-question').value,
         imageIcon: document.getElementById('content-image-icon').value
     };
