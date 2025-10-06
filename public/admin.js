@@ -1,5 +1,7 @@
 let studentsData = [];
 let currentTab = 'students';
+let currentPage = 1;
+const studentsPerPage = 20;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
@@ -94,13 +96,24 @@ async function loadStudents() {
 
 function renderStudents() {
     const list = document.getElementById('students-list');
+    const totalStudents = studentsData.length;
     
-    if (studentsData.length === 0) {
+    // Update student count
+    document.getElementById('page-title').textContent = `Students (${totalStudents})`;
+    
+    if (totalStudents === 0) {
         list.innerHTML = '<tr><td colspan="4" class="px-6 py-12 text-center text-slate-500 dark:text-slate-400">No students found</td></tr>';
+        document.getElementById('pagination-container').innerHTML = '';
         return;
     }
     
-    list.innerHTML = studentsData.map(student => {
+    // Calculate pagination
+    const totalPages = Math.ceil(totalStudents / studentsPerPage);
+    const startIndex = (currentPage - 1) * studentsPerPage;
+    const endIndex = startIndex + studentsPerPage;
+    const currentStudents = studentsData.slice(startIndex, endIndex);
+    
+    list.innerHTML = currentStudents.map(student => {
         const progress = student.approved || 0;
         const progressPercent = Math.round((progress/8)*100);
         return `
@@ -122,6 +135,9 @@ function renderStudents() {
         </tr>
         `;
     }).join('');
+    
+    // Render pagination
+    renderPagination(totalPages);
 }
 
 async function viewStudent(id) {
@@ -670,6 +686,36 @@ function closeModalOnBackdrop(event) {
         else if (modalId === 'assignment-modal') closeAssignmentModal();
         else if (modalId === 'student-modal') closeStudentModal();
     }
+}
+
+function renderPagination(totalPages) {
+    const container = document.getElementById('pagination-container');
+    if (!container) return;
+    
+    if (totalPages <= 1) {
+        container.innerHTML = '';
+        return;
+    }
+    
+    let pagination = '<div class="flex items-center justify-between mt-4">';
+    pagination += `<div class="text-sm text-slate-600 dark:text-slate-300">Page ${currentPage} of ${totalPages}</div>`;
+    pagination += '<div class="flex gap-2">';
+    
+    if (currentPage > 1) {
+        pagination += `<button onclick="changePage(${currentPage - 1})" class="px-3 py-1 bg-primary text-white rounded hover:bg-primary/90">Previous</button>`;
+    }
+    
+    if (currentPage < totalPages) {
+        pagination += `<button onclick="changePage(${currentPage + 1})" class="px-3 py-1 bg-primary text-white rounded hover:bg-primary/90">Next</button>`;
+    }
+    
+    pagination += '</div></div>';
+    container.innerHTML = pagination;
+}
+
+function changePage(page) {
+    currentPage = page;
+    renderStudents();
 }
 
 // Approve assignment
