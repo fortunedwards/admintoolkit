@@ -84,7 +84,7 @@ async function loadStudents() {
         const result = await response.json();
         
         if (result.success) {
-            studentsData = result.students;
+            studentsData = result.students.sort((a, b) => a.name.localeCompare(b.name));
             renderStudents();
         } else {
             showMessage('Failed to load students', 'error');
