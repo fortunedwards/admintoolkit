@@ -343,7 +343,7 @@ function showContentModal(week = null) {
                     document.getElementById('content-week-number').value = week;
                     document.getElementById('content-title').value = content.title || '';
                     document.getElementById('content-description').value = content.description || '';
-                    document.getElementById('content-video-ids').value = content.videoIds || content.videoid || '';
+                    document.getElementById('content-video-ids').value = content.videoids || '';
                     document.getElementById('content-assignment-question').value = content.assignmentquestion || '';
                     document.getElementById('content-image-icon').value = content.imageicon || '';
                 } else {
