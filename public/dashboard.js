@@ -355,7 +355,7 @@ function openWeekModal(weekNumber) {
                             </div>
                             <div>
                                 <h3 class="text-xl font-bold text-gray-900 dark:text-white">Practical Assignment</h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">${weekInfo?.assignmentQuestion || 'Apply what you\'ve learned'}</p>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">${(weekInfo?.assignmentQuestion || 'Apply what you\'ve learned').replace(/\n/g, '<br>')}</div>
                             </div>
                         </div>
                         <form id="assignment-form-${weekNumber}" onsubmit="submitAssignmentFile(event, ${weekNumber})" class="space-y-6">
@@ -632,7 +632,7 @@ function getEmbedUrl(videoUrl) {
         return videoUrl;
     }
     
-    // Default fallback
+    // For any other URL, return as-is (don't default to YouTube)
     return videoUrl;
 }
 
