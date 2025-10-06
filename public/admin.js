@@ -1,4 +1,5 @@
 let studentsData = [];
+let originalStudentsData = [];
 let currentTab = 'students';
 let currentPage = 1;
 const studentsPerPage = 20;
@@ -84,7 +85,8 @@ async function loadStudents() {
         const result = await response.json();
         
         if (result.success) {
-            studentsData = result.students.sort((a, b) => a.name.localeCompare(b.name));
+            originalStudentsData = result.students.sort((a, b) => a.name.localeCompare(b.name));
+            studentsData = [...originalStudentsData];
             renderStudents();
         } else {
             showMessage('Failed to load students', 'error');
@@ -649,18 +651,20 @@ async function logout() {
 // Search functionality
 function filterStudents() {
     const searchTerm = document.getElementById('student-search').value.toLowerCase();
-    const rows = document.querySelectorAll('#students-list tr');
     
-    rows.forEach(row => {
-        const name = row.cells[0]?.textContent.toLowerCase() || '';
-        const email = row.cells[1]?.textContent.toLowerCase() || '';
-        
-        if (name.includes(searchTerm) || email.includes(searchTerm)) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
-    });
+    if (searchTerm === '') {
+        // Reset to original data
+        studentsData = [...originalStudentsData];
+    } else {
+        // Filter all students data
+        studentsData = originalStudentsData.filter(student => 
+            student.name.toLowerCase().includes(searchTerm) || 
+            student.email.toLowerCase().includes(searchTerm)
+        );
+    }
+    
+    currentPage = 1;
+    renderStudents();
 }
 
 // Close student modal
