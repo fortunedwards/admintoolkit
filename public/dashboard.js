@@ -335,7 +335,13 @@ function openWeekModal(weekNumber) {
                         </div>
                         ${generateVideoSection(weekInfo, weekNumber)}
                         
-                        <div class="flex gap-3">
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <a href="${weekInfo.videoIds || weekInfo.videoId}" target="_blank" class="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-center">
+                                <span class="flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined text-sm">open_in_new</span>
+                                    Watch in Drive
+                                </span>
+                            </a>
                             <button class="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5" onclick="markVideoComplete(${weekNumber})" ${week.video_watched ? 'disabled' : ''}>
                                 <span class="flex items-center justify-center gap-2">
                                     <span class="material-symbols-outlined text-sm">${week.video_watched ? 'check_circle' : 'done'}</span>
@@ -613,7 +619,7 @@ function getEmbedUrl(videoUrl) {
     if (videoUrl.includes('drive.google.com')) {
         const fileIdMatch = videoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
         if (fileIdMatch) {
-            return `https://drive.google.com/file/d/${fileIdMatch[1]}/preview`;
+            return `https://drive.google.com/file/d/${fileIdMatch[1]}/preview?usp=sharing`;
         }
         // If already in preview format, return as-is
         if (videoUrl.includes('/preview')) {
