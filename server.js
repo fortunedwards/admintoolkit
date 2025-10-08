@@ -1152,9 +1152,9 @@ app.post('/api/admin/content', async (req, res) => {
       console.log('New content created for week:', weekNumber);
       res.json({ success: true, message: 'Content created successfully' });
     } else {
-      // Update existing week
-      const updateResult = await db.query('UPDATE course_content SET title = $1, description = $2, videoId = $3, videoIds = $4, assignmentQuestion = $5, imageIcon = $6 WHERE week = $7',
-        [title, description, videoId, videoIds, req.body.assignmentQuestion, req.body.imageIcon, week]);
+      // Update existing week - only update videoIds, not videoId
+      const updateResult = await db.query('UPDATE course_content SET title = $1, description = $2, videoIds = $3, assignmentQuestion = $4, imageIcon = $5 WHERE week = $6',
+        [title, description, videoIds, req.body.assignmentQuestion, req.body.imageIcon, week]);
       
       console.log('Content updated for week:', week, 'Rows affected:', updateResult.rowCount);
       res.json({ success: true, message: 'Content updated successfully' });

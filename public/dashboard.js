@@ -408,7 +408,7 @@ function openWeekModal(weekNumber) {
                             <div class="aspect-video bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl overflow-hidden shadow-lg">
                                 <iframe id="video-${weekNumber}" 
                                         src="${getEmbedUrl(weekInfo.videoIds || weekInfo.videoId)}" 
-                                        class="w-full h-full" frameborder="0" allowfullscreen>
+                                        class="w-full h-full" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen>
                                 </iframe>
                             </div>
                             
@@ -678,7 +678,7 @@ function generateVideoSection(weekInfo, weekNumber) {
         return `<div class="aspect-video bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl overflow-hidden mb-6 shadow-lg">
             <iframe id="video-${weekNumber}" 
                     src="${getEmbedUrl(videoList[0])}" 
-                    class="w-full h-full" frameborder="0" allowfullscreen>
+                    class="w-full h-full" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen>
             </iframe>
         </div>`;
     } else {
@@ -688,7 +688,7 @@ function generateVideoSection(weekInfo, weekNumber) {
                 <div class="aspect-video bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl overflow-hidden shadow-lg">
                     <iframe id="video-${weekNumber}-${index}" 
                             src="${getEmbedUrl(video)}" 
-                            class="w-full h-full" frameborder="0" allowfullscreen>
+                            class="w-full h-full" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen>
                     </iframe>
                 </div>
             `).join('')}

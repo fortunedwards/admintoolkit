@@ -387,7 +387,7 @@ async function saveContent(event) {
         week: document.getElementById('content-week').value || document.getElementById('content-week-number').value,
         title: document.getElementById('content-title').value,
         description: document.getElementById('content-description').value,
-        videoId: videoInput.includes(',') ? videoInput.split(',')[0].trim() : videoInput,
+        videoId: videoInput.includes(',') ? videoInput.split(',')[0].trim() : (videoInput || null),
         videoIds: videoInput,
         assignmentQuestion: document.getElementById('content-assignment-question').value,
         imageIcon: document.getElementById('content-image-icon').value
