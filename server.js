@@ -485,25 +485,33 @@ app.post('/register', async (req, res) => {
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
   
+  console.log('Login attempt for:', email);
+  
   try {
     const result = await db.query('SELECT * FROM students WHERE email = $1', [email]);
+    console.log('Database query result:', result.rows.length, 'students found');
     const student = result.rows[0];
     
     if (!student) {
+      console.log('No student found with email:', email);
       return res.json({ success: false, message: 'Invalid credentials' });
     }
     
+    console.log('Student found:', student.name);
     const validPassword = await bcrypt.compare(password, student.password);
+    console.log('Password validation result:', validPassword);
+    
     if (!validPassword) {
       return res.json({ success: false, message: 'Invalid credentials' });
     }
     
     req.session.studentId = student.id;
     req.session.studentName = student.name;
+    console.log('Login successful for:', student.name);
     res.json({ success: true, message: 'Login successful' });
   } catch (err) {
     console.error('Login error:', err);
-    return res.json({ success: false, message: 'Invalid credentials' });
+    return res.json({ success: false, message: 'Database error: ' + err.message });
   }
 });
 
@@ -677,11 +685,13 @@ app.get('/api/health', async (req, res) => {
     // Test database connection
     const contentResult = await db.query('SELECT COUNT(*) as count FROM course_content');
     const studentResult = await db.query('SELECT COUNT(*) as count FROM students');
+    const sampleStudent = await db.query('SELECT email FROM students LIMIT 1');
     
     res.json({ 
       success: true, 
       courseContent: parseInt(contentResult.rows[0].count),
       students: parseInt(studentResult.rows[0].count),
+      sampleStudent: sampleStudent.rows[0]?.email || 'none',
       database: 'PostgreSQL',
       nodeEnv: process.env.NODE_ENV,
       session: req.session.studentId ? 'active' : 'none'
