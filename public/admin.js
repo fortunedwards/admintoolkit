@@ -454,7 +454,7 @@ function renderAssignments(assignments) {
     const list = document.getElementById('assignments-list');
     
     if (assignments.length === 0) {
-        list.innerHTML = '<tr><td colspan="6" class="px-6 py-12 text-center text-slate-500 dark:text-slate-400">No assignments submitted</td></tr>';
+        list.innerHTML = '<tr><td colspan="7" class="px-6 py-12 text-center text-slate-500 dark:text-slate-400">No assignments submitted</td></tr>';
         return;
     }
     
@@ -466,6 +466,7 @@ function renderAssignments(assignments) {
         <tr>
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-800 dark:text-white">${assignment.student_name}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">${assignment.student_email}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">${assignment.total_assignments}/8</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">Week ${assignment.week}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">${assignment.week_title}</td>
             <td class="px-6 py-4 whitespace-nowrap">

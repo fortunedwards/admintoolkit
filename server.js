@@ -884,12 +884,13 @@ app.get('/api/admin/assignments', async (req, res) => {
   
   try {
     const result = await db.query(`
-      SELECT p.*, s.name as student_name, s.email as student_email, c.title as week_title
+      SELECT p.*, s.name as student_name, s.email as student_email, c.title as week_title,
+             (SELECT COUNT(*) FROM progress p2 WHERE p2.student_id = p.student_id AND p2.assignment_submitted = TRUE) as total_assignments
       FROM progress p 
       JOIN students s ON p.student_id = s.id 
       JOIN course_content c ON p.week = c.week
       WHERE p.assignment_submitted = TRUE
-      ORDER BY p.week, s.name
+      ORDER BY total_assignments DESC, s.name, p.week
     `);
     
     res.json({ success: true, assignments: result.rows });
