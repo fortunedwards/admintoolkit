@@ -295,7 +295,7 @@ async function initializeDatabase() {
         description = 'Organize thoughts with digital note-taking, to-do lists, reminders, and idea management systems.'
         WHERE week = 7 AND title != 'Week 7: Google Keep'`);
       
-      console.log('✅ Updated course structure - Trello moved to Week 4');
+      console.log('✅ Updated course structure - Trello moved to Week 4 (v2)');
     } catch (e) { console.log('Course structure update error:', e.message); }
     
   } catch (error) {
