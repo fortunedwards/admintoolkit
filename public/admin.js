@@ -1,8 +1,11 @@
 let studentsData = [];
 let originalStudentsData = [];
+let assignmentsData = [];
 let currentTab = 'students';
 let currentPage = 1;
+let assignmentsCurrentPage = 1;
 const studentsPerPage = 20;
+const assignmentsPerPage = 20;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
@@ -458,22 +461,31 @@ async function loadAssignments() {
         const result = await response.json();
         
         if (result.success) {
-            renderAssignments(result.assignments);
+            assignmentsData = result.assignments;
+            renderAssignments();
         }
     } catch (error) {
         showMessage('Error loading assignments', 'error');
     }
 }
 
-function renderAssignments(assignments) {
+function renderAssignments() {
     const list = document.getElementById('assignments-list');
+    const totalAssignments = assignmentsData.length;
     
-    if (assignments.length === 0) {
+    if (totalAssignments === 0) {
         list.innerHTML = '<tr><td colspan="5" class="px-6 py-12 text-center text-slate-500 dark:text-slate-400">No assignments submitted</td></tr>';
+        document.getElementById('assignments-pagination-container').innerHTML = '';
         return;
     }
     
-    list.innerHTML = assignments.map(assignment => {
+    // Calculate pagination
+    const totalPages = Math.ceil(totalAssignments / assignmentsPerPage);
+    const startIndex = (assignmentsCurrentPage - 1) * assignmentsPerPage;
+    const endIndex = startIndex + assignmentsPerPage;
+    const currentAssignments = assignmentsData.slice(startIndex, endIndex);
+    
+    list.innerHTML = currentAssignments.map(assignment => {
         const approvalRate = Math.round((assignment.approved_assignments / assignment.total_assignments) * 100);
         
         return `
@@ -488,6 +500,9 @@ function renderAssignments(assignments) {
         </tr>
         `;
     }).join('');
+    
+    // Render assignments pagination
+    renderAssignmentsPagination(totalPages);
 }
 
 function reviewAssignment(studentId, week, studentName, weekTitle) {
@@ -730,6 +745,36 @@ async function viewStudentAssignments(studentId, studentName) {
     } catch (error) {
         showMessage('Error loading student assignments', 'error');
     }
+}
+
+function renderAssignmentsPagination(totalPages) {
+    const container = document.getElementById('assignments-pagination-container');
+    if (!container) return;
+    
+    if (totalPages <= 1) {
+        container.innerHTML = '';
+        return;
+    }
+    
+    let pagination = '<div class="flex items-center justify-between mt-4">';
+    pagination += `<div class="text-sm text-slate-600 dark:text-slate-300">Page ${assignmentsCurrentPage} of ${totalPages}</div>`;
+    pagination += '<div class="flex gap-2">';
+    
+    if (assignmentsCurrentPage > 1) {
+        pagination += `<button onclick="changeAssignmentsPage(${assignmentsCurrentPage - 1})" class="px-3 py-1 bg-primary text-white rounded hover:bg-primary/90">Previous</button>`;
+    }
+    
+    if (assignmentsCurrentPage < totalPages) {
+        pagination += `<button onclick="changeAssignmentsPage(${assignmentsCurrentPage + 1})" class="px-3 py-1 bg-primary text-white rounded hover:bg-primary/90">Next</button>`;
+    }
+    
+    pagination += '</div></div>';
+    container.innerHTML = pagination;
+}
+
+function changeAssignmentsPage(page) {
+    assignmentsCurrentPage = page;
+    renderAssignments();
 }
 
 async function approveAssignment(studentId, week) {
