@@ -316,10 +316,10 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: { 
-    secure: process.env.NODE_ENV === 'production',
+    secure: false, // Disable secure for now to test
     httpOnly: true,
     maxAge: 7 * 24 * 60 * 60 * 1000,
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+    sameSite: 'lax'
   }
 }));
 
@@ -703,9 +703,12 @@ app.post('/reset-password', async (req, res) => {
 });
 
 app.get('/dashboard', (req, res) => {
+  console.log('Dashboard access attempt. Session:', req.session.studentId ? 'exists' : 'missing');
   if (!req.session.studentId) {
-    return res.redirect('/');
+    console.log('No session found, redirecting to login');
+    return res.redirect('/login.html');
   }
+  console.log('Session valid, serving dashboard');
   res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
 });
 
