@@ -165,10 +165,10 @@ function updateCourseTimeline() {
         1: 'https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico',
         2: 'https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico',
         3: 'https://calendar.google.com/googlecalendar/images/favicons_2020q4/calendar_31.ico',
-        4: 'https://www.gstatic.com/images/branding/product/1x/forms_2020q4_48dp.png',
-        5: 'https://ssl.gstatic.com/docs/spreadsheets/favicon_jfk2.png',
-        6: 'https://www.gstatic.com/keep/icon_2020q4v2_128.png',
-        7: 'https://cdn.worldvectorlogo.com/logos/trello.svg',
+        4: 'https://cdn.worldvectorlogo.com/logos/trello.svg',
+        5: 'https://www.gstatic.com/images/branding/product/1x/forms_2020q4_48dp.png',
+        6: 'https://ssl.gstatic.com/docs/spreadsheets/favicon_jfk2.png',
+        7: 'https://www.gstatic.com/keep/icon_2020q4v2_128.png',
         8: 'https://fonts.gstatic.com/s/i/productlogos/admin_2020q4/v6/web-512dp/logo_admin_2020q4_color_2x_web_512dp.png'
     };
     
