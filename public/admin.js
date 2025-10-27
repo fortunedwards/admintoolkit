@@ -493,7 +493,7 @@ function renderAssignments() {
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-800 dark:text-white">${assignment.student_name}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">${assignment.student_email}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">${assignment.total_assignments}/8</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">${assignment.approved_assignments}/${assignment.total_assignments} (${approvalRate}%)</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">${assignment.approved_assignments}/${assignment.total_assignments}</td>
             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                 <button onclick="viewStudentAssignments(${assignment.student_id}, '${assignment.student_name}')" class="text-primary hover:text-primary/80">View Details</button>
             </td>
