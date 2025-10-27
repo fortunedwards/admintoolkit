@@ -454,43 +454,21 @@ function renderAssignments(assignments) {
     const list = document.getElementById('assignments-list');
     
     if (assignments.length === 0) {
-        list.innerHTML = '<tr><td colspan="7" class="px-6 py-12 text-center text-slate-500 dark:text-slate-400">No assignments submitted</td></tr>';
+        list.innerHTML = '<tr><td colspan="5" class="px-6 py-12 text-center text-slate-500 dark:text-slate-400">No assignments submitted</td></tr>';
         return;
     }
     
     list.innerHTML = assignments.map(assignment => {
-        const status = assignment.approved ? 'Approved' : 'Pending Review';
-        const statusColor = assignment.approved ? 'text-green-600 bg-green-100' : 'text-yellow-600 bg-yellow-100';
+        const approvalRate = Math.round((assignment.approved_assignments / assignment.total_assignments) * 100);
         
         return `
         <tr>
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-800 dark:text-white">${assignment.student_name}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">${assignment.student_email}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">${assignment.total_assignments}/8</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">Week ${assignment.week}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">${assignment.week_title}</td>
-            <td class="px-6 py-4 whitespace-nowrap">
-                <span class="px-2 py-1 text-xs font-medium rounded-full ${statusColor}">${status}</span>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                <div class="flex flex-col gap-1">
-                    ${assignment.assignment_file ? 
-                        `<a href="/api/admin/assignment/${assignment.student_id}/${assignment.week}/download" class="text-blue-600 hover:text-blue-800">📎 Download File</a>` : 
-                        ''
-                    }
-                    ${assignment.assignment_link ? 
-                        `<a href="${assignment.assignment_link}" target="_blank" class="text-blue-600 hover:text-blue-800">🔗 View Link</a>` : 
-                        ''
-                    }
-                    ${!assignment.assignment_file && !assignment.assignment_link ? 
-                        '<span class="text-gray-400">No submission</span>' : 
-                        ''
-                    }
-                </div>
-                ${!assignment.approved ? 
-                    `<button onclick="reviewAssignment(${assignment.student_id}, ${assignment.week}, '${assignment.student_name}', '${assignment.week_title}')" class="text-primary hover:text-primary/80 ml-2">Review</button>` : 
-                    ''
-                }
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">${assignment.approved_assignments}/${assignment.total_assignments} (${approvalRate}%)</td>
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <button onclick="viewStudentAssignments(${assignment.student_id}, '${assignment.student_name}')" class="text-primary hover:text-primary/80">View Details</button>
             </td>
         </tr>
         `;
@@ -724,6 +702,21 @@ function changePage(page) {
 }
 
 // Approve assignment
+async function viewStudentAssignments(studentId, studentName) {
+    try {
+        const response = await fetch(`/api/admin/student/${studentId}`);
+        const result = await response.json();
+        
+        if (result.success) {
+            viewStudent(studentId);
+        } else {
+            showMessage('Error loading student assignments', 'error');
+        }
+    } catch (error) {
+        showMessage('Error loading student assignments', 'error');
+    }
+}
+
 async function approveAssignment(studentId, week) {
     const feedback = prompt('Enter feedback (optional):');
     
