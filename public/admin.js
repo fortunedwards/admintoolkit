@@ -16,6 +16,21 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Mobile menu functionality
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const isCollapsed = sidebar.classList.contains('w-16');
+    
+    if (isCollapsed) {
+        sidebar.classList.remove('w-16');
+        sidebar.classList.add('w-64');
+        document.querySelectorAll('.sidebar-text').forEach(el => el.classList.remove('hidden'));
+    } else {
+        sidebar.classList.remove('w-64');
+        sidebar.classList.add('w-16');
+        document.querySelectorAll('.sidebar-text').forEach(el => el.classList.add('hidden'));
+    }
+}
+
 function toggleMobileMenu() {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('mobile-menu-overlay');
